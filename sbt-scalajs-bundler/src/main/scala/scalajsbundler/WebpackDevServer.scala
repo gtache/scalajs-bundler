@@ -1,6 +1,5 @@
 package scalajsbundler
 
-import sbt._
 import java.io.File
 
 /**

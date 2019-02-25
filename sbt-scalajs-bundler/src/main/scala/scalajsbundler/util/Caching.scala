@@ -1,7 +1,5 @@
 package scalajsbundler.util
 
-import sbt._
-
 object Caching {
 
   def cached(

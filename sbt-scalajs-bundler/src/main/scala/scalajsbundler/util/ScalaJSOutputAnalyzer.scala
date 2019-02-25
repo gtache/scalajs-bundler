@@ -7,7 +7,6 @@ import org.scalajs.core.tools.linker.standard._
 import org.scalajs.core.tools.linker.backend.{BasicLinkerBackend, LinkerBackend}
 import org.scalajs.sbtplugin.Loggers
 import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.ModuleKind
-import sbt.Logger
 
 object ScalaJSOutputAnalyzer {
 

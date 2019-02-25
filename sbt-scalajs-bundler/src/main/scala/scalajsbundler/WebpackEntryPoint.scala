@@ -1,7 +1,5 @@
 package scalajsbundler
 
-import sbt.{IO, Logger}
-
 import scalajsbundler.util.JS
 
 object WebpackEntryPoint {

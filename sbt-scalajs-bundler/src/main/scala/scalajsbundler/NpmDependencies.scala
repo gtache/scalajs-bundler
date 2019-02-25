@@ -4,7 +4,6 @@ import java.io.{BufferedInputStream, FileInputStream}
 import java.util.zip.ZipInputStream
 
 import org.scalajs.core.tools.json._
-import sbt._
 
 import NpmDependencies.Dependencies
 

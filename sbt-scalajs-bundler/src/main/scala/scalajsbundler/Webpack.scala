@@ -1,6 +1,5 @@
 package scalajsbundler
 
-import sbt._
 import scalajsbundler.util.{Commands, JS}
 import org.scalajs.core.tools.linker.StandardLinker.Config
 import java.io.InputStream

@@ -1,6 +1,5 @@
 package scalajsbundler.util
 
-import sbt.Logger
 import java.io.{InputStream, File}
 import scala.sys.process.Process
 import scala.sys.process.BasicIO

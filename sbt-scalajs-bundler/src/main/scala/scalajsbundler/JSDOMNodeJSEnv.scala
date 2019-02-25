@@ -7,7 +7,6 @@ import org.scalajs.core.tools.jsdep.ResolvedJSDependency
 import org.scalajs.jsenv.{AsyncJSRunner, ComJSRunner, JSRunner}
 import org.scalajs.core.ir.Utils.escapeJS
 import org.scalajs.jsenv.nodejs.AbstractNodeJSEnv
-import sbt._
 
 // HACK Copy of Scala.js’ JSDOMNodeJSEnv. The only change is the ability to pass the directory in which jsdom has been installed
 class JSDOMNodeJSEnv(

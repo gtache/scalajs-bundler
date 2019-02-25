@@ -2,7 +2,6 @@ package scalajsbundler
 
 import java.io.File
 
-import sbt._
 import scalajsbundler.util.Commands
 
 /**

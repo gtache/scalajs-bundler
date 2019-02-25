@@ -3,7 +3,6 @@ package scalajsbundler
 import java.io.FileReader
 import org.scalajs.core.tools.json
 import org.scalajs.core.tools.json.{JSON, JSONDeserializer, JSONObjExtractor}
-import sbt._
 import scala.util.Try
 
 case class NpmPackage(version: String) {

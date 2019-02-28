@@ -93,6 +93,14 @@ object IO {
     }
   }
 
+  def createDirectory(path: String): Unit = {
+    createDirectory(new File(path))
+  }
+
+  def createDirectory(file: File): Unit = {
+    Files.createDirectory(file.toPath)
+  }
+
   def selectSubfiles(file: File): Set[File] = {
     val ret = mutable.Set[File]()
     if (file.isFile) {

@@ -1,5 +1,6 @@
-package scalajsbundler.sbtplugin
+package com.github.gtache.scalajsbundler.sbtplugin
 
+import java.io.File
 import java.util.concurrent.atomic.AtomicReference
 
 import com.github.gtache.{scalajsbundler, _}
@@ -15,6 +16,7 @@ import com.github.gtache.scalajsbundler.ExternalCommand.addPackages
 import com.github.gtache.scalajsbundler._
 import com.github.gtache.scalajsbundler.util.JSON
 import com.github.gtache.scalajsbundler.{BundlerFile, JSDOMNodeJSEnv, JsDomTestEntries, NpmDependencies, NpmPackage, Webpack}
+import com.sun.org.apache.xalan.internal.xsltc.cmdline.Compile
 import org.gradle.internal.impldep.org.bouncycastle.jcajce.provider.keystore.bcfks.BcFKSKeyStoreSpi.Def
 
 

@@ -51,7 +51,7 @@ object ScalaJSOutputAnalyzer {
     linker.linkUnit(irFiles,
       moduleInitializers,
       symbolRequirements,
-      Loggers.sbtLogger2ToolsLogger(logger))
+      Logger.getSJSLogger)
   }
 
 }

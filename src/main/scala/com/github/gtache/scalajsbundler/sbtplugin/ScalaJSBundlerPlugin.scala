@@ -2,26 +2,20 @@ package scalajsbundler.sbtplugin
 
 import java.util.concurrent.atomic.AtomicReference
 
-import com.github.gtache
 import com.github.gtache.{scalajsbundler, _}
 import org.scalajs.core.tools.io.FileVirtualJSFile
 import org.scalajs.core.tools.jsdep.ResolvedJSDependency
 import org.scalajs.core.tools.linker.backend.ModuleKind
 import org.scalajs.jsenv.ComJSEnv
 import org.scalajs.jsenv.nodejs.NodeJSEnv
-import org.scalajs.sbtplugin.Loggers.sbtLogger2ToolsLogger
-import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
-import org.scalajs.sbtplugin.ScalaJSPluginInternal._
-import org.scalajs.sbtplugin.{ScalaJSPlugin, ScalaJSPluginInternal, Stage}
 import org.scalajs.testadapter.TestAdapter
-import sbt.Keys._
-import sbt._
 
 import scala.annotation.tailrec
-import _root_.scalajsbundler.ExternalCommand.addPackages
-import _root_.scalajsbundler._
-import _root_.scalajsbundler.util.JSON
-import com.github.gtache.scalajsbundler.{JSDOMNodeJSEnv, JsDomTestEntries, NpmDependencies, NpmPackage, Webpack}
+import com.github.gtache.scalajsbundler.ExternalCommand.addPackages
+import com.github.gtache.scalajsbundler._
+import com.github.gtache.scalajsbundler.util.JSON
+import com.github.gtache.scalajsbundler.{BundlerFile, JSDOMNodeJSEnv, JsDomTestEntries, NpmDependencies, NpmPackage, Webpack}
+import org.gradle.internal.impldep.org.bouncycastle.jcajce.provider.keystore.bcfks.BcFKSKeyStoreSpi.Def
 
 
 

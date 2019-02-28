@@ -1,5 +1,7 @@
 package scalajsbundler.sbtplugin
 
+import java.io.File
+
 import com.github.gtache.scalajsbundler.ExternalCommand
 import org.scalajs.core.tools.io.{FileVirtualJSFile, RelativeVirtualFile, VirtualJSFile}
 import sbt._

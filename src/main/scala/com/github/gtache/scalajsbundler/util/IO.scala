@@ -102,4 +102,9 @@ object IO {
     }
     ret.toSet
   }
+
+  implicit class FileImprovements(f: File) {
+    def /(child: String): File = if (child != ".") new File(f, child) else f
+  }
+
 }

@@ -3,6 +3,7 @@ package com.github.gtache.scalajsbundler
 import java.io.{File, InputStream}
 
 import com.github.gtache.scalajsbundler.Stats.WebpackStats
+import com.github.gtache.scalajsbundler.util.IO.FileImprovements
 import com.github.gtache.scalajsbundler.util.{Commands, IO, JS, Logger}
 import org.scalajs.core.tools.linker.StandardLinker.Config
 import play.api.libs.json.{JsError, JsSuccess, Json}
@@ -44,7 +45,7 @@ object Webpack {
     */
   def copyCustomWebpackConfigFiles(targetDir: File, webpackResources: Seq[File])(customConfigFile: File): File = {
     def copyToWorkingDir(targetDir: File)(file: File): File = {
-      val copy = new File(targetDir + "/" + file.getName)
+      val copy = targetDir / file.getName
       IO.copyFile(file, copy)
       copy
     }
@@ -281,7 +282,7 @@ object Webpack {
     * @param workingDir Working directory in which the Nodejs will be run (where there is the `node_modules` subdirectory)
     */
   def run(nodeArgs: String*)(args: String*)(workingDir: File): Option[WebpackStats] = {
-    val webpackBin = new File(workingDir.getAbsolutePath + "/node_modules/webpack/bin/webpack")
+    val webpackBin = workingDir / "node_modules" / "webpack" / "bin" / "webpack"
     val params = nodeArgs ++ Seq(webpackBin.getAbsolutePath, "--bail", "--profile", "--json") ++ args
     val cmd = "node" +: params
     Commands.run(cmd, workingDir, jsonOutput(cmd)).fold(sys.error, _.flatten)

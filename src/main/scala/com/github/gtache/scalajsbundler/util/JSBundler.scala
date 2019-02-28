@@ -3,6 +3,7 @@ package com.github.gtache.scalajsbundler.util
 import java.io.File
 
 import com.github.gtache.scalajsbundler.BundlerFile
+import com.github.gtache.scalajsbundler.util.IO.FileImprovements
 
 
 object JSBundler {
@@ -91,7 +92,7 @@ object JSBundler {
             )
           }
         }
-      val concatFile = new File(targetDir, s"scalajsbundler-concat-${bundleFile.file.getName}.js")
+      val concatFile = targetDir / s"scalajsbundler-concat-${bundleFile.file.getName}.js"
       IO.write(concatFile, concatContent.show)
       Commands.run(Seq("node", concatFile.getAbsolutePath), targetDir)
     } else {

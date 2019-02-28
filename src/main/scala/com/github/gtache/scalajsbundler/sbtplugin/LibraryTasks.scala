@@ -1,14 +1,14 @@
-package scalajsbundler.sbtplugin
+package com.github.gtache.scalajsbundler.sbtplugin
 
-import com.github.gtache.WebpackEntryPoint
+import java.io.File
+
+import com.github.gtache.scalajsbundler.WebpackEntryPoint
 import com.github.gtache.scalajsbundler.util.{Caching, ScalaJSOutputAnalyzer}
 import com.github.gtache.scalajsbundler.{Webpack, WebpackEntryPoint}
+import com.sun.org.apache.xalan.internal.xsltc.cmdline.Compile
 import org.gradle.internal.impldep.org.bouncycastle.jcajce.provider.keystore.bcfks.BcFKSKeyStoreSpi.Def
-import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.{scalaJSIR, scalaJSLinkerConfig, scalaJSModuleInitializers}
-import org.scalajs.sbtplugin.ScalaJSPluginInternal.{scalaJSLinker, usesScalaJSLinkerTag}
 import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport._
 import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin._
-import scalajsbundler.util.{Caching, JSBundler, ScalaJSOutputAnalyzer}
 
 object LibraryTasks {
 

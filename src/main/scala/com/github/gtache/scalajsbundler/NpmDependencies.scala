@@ -5,6 +5,7 @@ import java.util.zip.ZipInputStream
 
 import com.github.gtache.scalajsbundler.NpmDependencies.Dependencies
 import com.github.gtache.scalajsbundler.util.IO
+import com.github.gtache.scalajsbundler.util.IO.FileImprovements
 import org.gradle.api.file.FileCollection
 import org.scalajs.core.tools.json._
 
@@ -97,7 +98,7 @@ object NpmDependencies {
     */
   def writeManifest(npmDependencies: NpmDependencies,
                     classDirectory: File): File = {
-    val manifestFile = new File(classDirectory, manifestFileName)
+    val manifestFile = classDirectory / manifestFileName
     IO.write(manifestFile, jsonToString(npmDependencies.toJSON))
     manifestFile
   }

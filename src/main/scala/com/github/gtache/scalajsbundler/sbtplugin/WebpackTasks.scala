@@ -1,8 +1,9 @@
-package scalajsbundler.sbtplugin
+package com.github.gtache.scalajsbundler.sbtplugin
+
+import java.io.File
+
 import com.github.gtache.scalajsbundler.Webpack
-import sbt.Keys._
-import sbt.{Def, _}
-import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport.scalaJSLinkerConfig
+import org.gradle.internal.impldep.org.bouncycastle.jcajce.provider.keystore.bcfks.BcFKSKeyStoreSpi.Def
 import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin._
 import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport._
 

@@ -2,6 +2,7 @@ package com.github.gtache.scalajsbundler
 
 import java.io.File
 
+import com.github.gtache.scalajsbundler.util.IO.FileImprovements
 import com.github.gtache.scalajsbundler.util.{Commands, IO, Logger}
 
 /**
@@ -36,8 +37,8 @@ object ExternalCommand {
 
   private def syncYarnLockfile(baseDir: File, installDir: File)(
     yarnCommand: => Unit): Unit = {
-    val sourceLockFile = new File(baseDir, "yarn.lock")
-    val targetLockFile = new File(installDir, "yarn.lock")
+    val sourceLockFile = baseDir / "yarn.lock"
+    val targetLockFile = installDir / "yarn.lock"
     if (sourceLockFile.exists()) {
       Logger.info("Using lockfile " + sourceLockFile)
       IO.copyFile(sourceLockFile, targetLockFile)

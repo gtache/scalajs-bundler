@@ -3,6 +3,7 @@ package com.github.gtache.scalajsbundler
 import java.io.{File, OutputStream}
 
 import com.github.gtache.scalajsbundler.util.IO
+import com.github.gtache.scalajsbundler.util.IO.FileImprovements
 import org.scalajs.core.ir.Utils.escapeJS
 import org.scalajs.core.tools.io.{FileVirtualFile, FileVirtualJSFile, VirtualJSFile}
 import org.scalajs.core.tools.jsdep.ResolvedJSDependency
@@ -131,7 +132,7 @@ class JSDOMNodeJSEnv(jsDomDirectory: File,
            |})();
            |""".stripMargin
       }
-      val codeFile = new File(jsDomDirectory, "codeWithJSDOMContext.js")
+      val codeFile = jsDomDirectory / "codeWithJSDOMContext.js"
       IO.write(codeFile, jsDOMCode)
       Seq(FileVirtualJSFile(codeFile))
     }

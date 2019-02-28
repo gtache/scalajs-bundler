@@ -18,9 +18,9 @@ class InstallJsdomTask extends DefaultTask {
         File jsdomDir = new File(new File(installDir, "node_modules"), "jsdom")
         String jsdomVersion = project.property(VERSION_P)
         boolean useYarn = project.property(PluginMain.USE_YARN_P)
-        Seq<String> npmExtraArgs = JavaConverters.asScalaBuffer(project.property(PluginMain.NPM_EXTRA_ARGS_P) as List<String>).toSeq()
-        Seq<String> yarnExtraArgs = JavaConverters.asScalaBuffer(project.property(PluginMain.YARN_EXTRA_ARGS_P) as List<String>).toSeq()
-        Seq<String> npmPackages = JavaConverters.asScalaBuffer(Arrays.asList("jsdom" + jsdomVersion)).toSeq()
+        Seq<String> npmExtraArgs = JavaConverters.asScalaBuffer(project.property(PluginMain.NPM_EXTRA_ARGS_P) as List<String>)
+        Seq<String> yarnExtraArgs = JavaConverters.asScalaBuffer(project.property(PluginMain.YARN_EXTRA_ARGS_P) as List<String>)
+        Seq<String> npmPackages = JavaConverters.asScalaBuffer(Arrays.asList("jsdom" + jsdomVersion))
         if (!jsdomDir.exists()) {
             project.logger.info("Installing jsdom in " + installDir.absolutePath)
             IO.createDirectory(installDir)

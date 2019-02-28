@@ -3,8 +3,8 @@ package com.github.gtache.scalajsbundler.util
 import org.scalajs.core.ir.Trees.JSNativeLoadSpec
 import org.scalajs.core.tools.io.VirtualScalaJSIRFile
 import org.scalajs.core.tools.linker._
-import org.scalajs.core.tools.linker.standard._
 import org.scalajs.core.tools.linker.backend.{BasicLinkerBackend, LinkerBackend}
+import org.scalajs.core.tools.linker.standard._
 
 object ScalaJSOutputAnalyzer {
 
@@ -18,8 +18,8 @@ object ScalaJSOutputAnalyzer {
       .flatMap {
         case JSNativeLoadSpec.Import(module, _) => List(module)
         case JSNativeLoadSpec.ImportWithGlobalFallback(
-            JSNativeLoadSpec.Import(module, _),
-            _) =>
+        JSNativeLoadSpec.Import(module, _),
+        _) =>
           List(module)
         case JSNativeLoadSpec.Global(_) => Nil
       }
@@ -28,31 +28,30 @@ object ScalaJSOutputAnalyzer {
   /**
     * Extract the linking unit from the Scala.js output
     *
-    * @param linkerConfig Configuration of the Scala.js linker
-    * @param linker Scala.js linker
-    * @param irFiles Scala.js IR files
+    * @param linkerConfig       Configuration of the Scala.js linker
+    * @param linker             Scala.js linker
+    * @param irFiles            Scala.js IR files
     * @param moduleInitializers Scala.js module initializers
-    * @param logger Logger
     * @return
     */
   def linkingUnit(linkerConfig: StandardLinker.Config,
-      linker: ClearableLinker,
-      irFiles: Seq[VirtualScalaJSIRFile],
-      moduleInitializers: Seq[ModuleInitializer]): LinkingUnit = {
+                  linker: ClearableLinker,
+                  irFiles: Seq[VirtualScalaJSIRFile],
+                  moduleInitializers: Seq[ModuleInitializer]): LinkingUnit = {
     require(linkerConfig.moduleKind == ModuleKind.CommonJSModule,
-            s"linkerConfig.moduleKind was ${linkerConfig.moduleKind}")
+      s"linkerConfig.moduleKind was ${linkerConfig.moduleKind}")
     val symbolRequirements = {
       val backend = new BasicLinkerBackend(linkerConfig.semantics,
-                                           linkerConfig.outputMode,
-                                           linkerConfig.moduleKind,
-                                           linkerConfig.sourceMap,
-                                           LinkerBackend.Config())
+        linkerConfig.outputMode,
+        linkerConfig.moduleKind,
+        linkerConfig.sourceMap,
+        LinkerBackend.Config())
       backend.symbolRequirements
     }
     linker.linkUnit(irFiles,
-                    moduleInitializers,
-                    symbolRequirements,
-                    Loggers.sbtLogger2ToolsLogger(logger))
+      moduleInitializers,
+      symbolRequirements,
+      Loggers.sbtLogger2ToolsLogger(logger))
   }
 
 }

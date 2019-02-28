@@ -3,7 +3,6 @@ package com.github.gtache.scalajsbundler.util
 import java.io.File
 
 import com.github.gtache.scalajsbundler.BundlerFile
-import scalajsbundler.util.{Commands, JS}
 
 
 object JSBundler {
@@ -24,7 +23,6 @@ object JSBundler {
     * Run webpack to bundle the application.
     *
     * @param targetDir Target directory (and working directory for Nodejs)
-    * @param logger    Logger
     * @return The generated bundles
     */
   def bundle(targetDir: File,

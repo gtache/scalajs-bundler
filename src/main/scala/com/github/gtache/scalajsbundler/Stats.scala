@@ -5,12 +5,14 @@ import java.nio.file.Path
 import java.time.LocalDateTime
 
 import com.github.gtache.scalajsbundler.util.Logger
+import play.api.libs.functional.syntax._
+import play.api.libs.json.{JsPath, Reads}
 
 import scala.math.max
 
 /**
- * Webpack stats model and json parsers
- */
+  * Webpack stats model and json parsers
+  */
 object Stats {
 
   final case class Asset(name: String, size: Long, emitted: Option[Boolean], chunkNames: List[String])
@@ -22,7 +24,7 @@ object Stats {
         copy(l = max(l, p.l))
 
       def leftPad: String =
-        // String interpolation doesn't support dynamic padding
+      // String interpolation doesn't support dynamic padding
         t.reverse.padTo(l, ' ').reverse.mkString
     }
 
@@ -32,6 +34,7 @@ object Stats {
 
     final case class AssetLine(asset: Part, size: Part, emitted: Part, chunks: Part) {
       def adjustPadding(p: AssetLine): AssetLine = copy(asset.maxL(p.asset), size.maxL(p.size), emitted.maxL(p.emitted), chunks.maxL(p.chunks))
+
       def show: String = List(asset, size, emitted, chunks).map(_.leftPad).mkString("   ")
     }
 
@@ -49,7 +52,7 @@ object Stats {
     def print(): Unit = {
       import formatting._
       // Print base info
-      List(s"Version: $version", s"Hash: $hash", s"Time: ${time}ms", s"Path: ${outputPath.getOrElse("<default>")}", s"Built at ${LocalDateTime.now}").foreach(x => log.info(x))
+      List(s"Version: $version", s"Hash: $hash", s"Time: ${time}ms", s"Path: ${outputPath.getOrElse("<default>")}", s"Built at ${LocalDateTime.now}").foreach(x => Logger.info(x))
       Logger.info("")
       // Print the assets
       assets.map { a =>
@@ -74,33 +77,33 @@ object Stats {
       assets.find(a => a.chunkNames.contains(project) && a.name.endsWith(".js")).map(_.name)
 
     /**
-     * Resolve the asset on the output path or the target dir if unavailable
-     */
+      * Resolve the asset on the output path or the target dir if unavailable
+      */
     def resolveAsset(altDir: Path, asset: String): Option[File] =
       assetName(asset).map(a => outputPath.getOrElse(altDir).resolve(a).toFile)
 
     /**
-     * Resolve alles asset on the output path or the target dir if unavailable
-     */
+      * Resolve alles asset on the output path or the target dir if unavailable
+      */
     def resolveAllAssets(altDir: Path): List[File] =
       assets.map(a => outputPath.getOrElse(altDir).resolve(a.name).toFile)
   }
 
   implicit val assetsReads: Reads[Asset] = (
     (JsPath \ "name").read[String] and
-    (JsPath \ "size").read[Long] and
-    (JsPath \ "emitted").readNullable[Boolean] and
-    (JsPath \\ "chunkNames").read[List[String]]
-  )(Asset.apply _)
+      (JsPath \ "size").read[Long] and
+      (JsPath \ "emitted").readNullable[Boolean] and
+      (JsPath \\ "chunkNames").read[List[String]]
+    ) (Asset.apply _)
 
   implicit val statsReads: Reads[WebpackStats] = (
     (JsPath \ "version").read[String] and
-    (JsPath \ "hash").read[String] and
-    (JsPath \ "time").read[Long] and
-    (JsPath \ "outputPath").readNullable[String].map(x => x.map(new File(_).toPath)) and // It seems webpack 2 doesn't produce outputPath
-    (JsPath \ "errors").read[List[String]] and
-    (JsPath \ "warnings").read[List[String]] and
-    (JsPath \ "assets").read[List[Asset]]
-  )(WebpackStats.apply _)
+      (JsPath \ "hash").read[String] and
+      (JsPath \ "time").read[Long] and
+      (JsPath \ "outputPath").readNullable[String].map(x => x.map(new File(_).toPath)) and // It seems webpack 2 doesn't produce outputPath
+      (JsPath \ "errors").read[List[String]] and
+      (JsPath \ "warnings").read[List[String]] and
+      (JsPath \ "assets").read[List[Asset]]
+    ) (WebpackStats.apply _)
 
 }

@@ -2,8 +2,7 @@ package com.github.gtache.scalajsbundler
 
 import java.io.File
 
-import com.github.gtache.scalajsbundler.util.{IO, Logger}
-import scalajsbundler.util.Commands
+import com.github.gtache.scalajsbundler.util.{Commands, IO, Logger}
 
 /**
   * Attempts to smoothen platform-specific differences when invoking commands.
@@ -14,16 +13,16 @@ class ExternalCommand(name: String) {
 
   /**
     * Runs the command `cmd`
-    * @param args Command arguments
+    *
+    * @param args       Command arguments
     * @param workingDir Working directory of the process
-    * @param logger Logger
     */
   def run(args: String*)(workingDir: File): Unit =
     Commands.run(cmd ++: args, workingDir)
 
   private val cmd = sys.props("os.name").toLowerCase match {
     case os if os.contains("win") => Seq("cmd", "/c", name)
-    case _                        => Seq(name)
+    case _ => Seq(name)
   }
 
 }
@@ -34,10 +33,11 @@ object Yarn extends ExternalCommand("yarn")
 
 object ExternalCommand {
   private val yarnOptions = List("--non-interactive", "--mutex", "network")
+
   private def syncYarnLockfile(baseDir: File, installDir: File)(
-      yarnCommand: => Unit): Unit = {
+    yarnCommand: => Unit): Unit = {
     val sourceLockFile = new File(baseDir, "yarn.lock")
-    val targetLockFile = new File(installDir,  "yarn.lock")
+    val targetLockFile = new File(installDir, "yarn.lock")
     if (sourceLockFile.exists()) {
       Logger.info("Using lockfile " + sourceLockFile)
       IO.copyFile(sourceLockFile, targetLockFile)
@@ -54,12 +54,11 @@ object ExternalCommand {
   /**
     * Locally install NPM packages
     *
-    * @param baseDir The (sub-)project directory which contains yarn.lock
-    * @param installDir The directory in which to install the packages
-    * @param useYarn Whether to use yarn or npm
-    * @param logger sbt logger
+    * @param baseDir      The (sub-)project directory which contains yarn.lock
+    * @param installDir   The directory in which to install the packages
+    * @param useYarn      Whether to use yarn or npm
     * @param npmExtraArgs Additional arguments to pass to npm
-    * @param npmPackages Packages to install (e.g. "webpack", "webpack@2.2.1")
+    * @param npmPackages  Packages to install (e.g. "webpack", "webpack@2.2.1")
     */
   def addPackages(baseDir: File,
                   installDir: File,

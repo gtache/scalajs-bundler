@@ -1,9 +1,6 @@
 package com.github.gtache.scalajsbundler
 
-import java.io.{BufferedWriter, FileWriter}
-
-import com.github.gtache.scalajsbundler.util.{IO, Logger}
-import scalajsbundler.util.JS
+import com.github.gtache.scalajsbundler.util.{IO, JS, Logger}
 
 object WebpackEntryPoint {
 

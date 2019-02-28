@@ -1,9 +1,8 @@
 package com.github.gtache.scalajsbundler
 
-import java.io.{BufferedWriter, File, FileWriter}
+import java.io.File
 
-import com.github.gtache.scalajsbundler.util.IO
-import scalajsbundler.util.JS
+import com.github.gtache.scalajsbundler.util.{IO, JS}
 
 object JsDomTestEntries {
 

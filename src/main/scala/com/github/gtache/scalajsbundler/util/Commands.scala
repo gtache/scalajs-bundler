@@ -2,8 +2,6 @@ package com.github.gtache.scalajsbundler.util
 
 import java.io.{File, InputStream}
 
-import com.github.gtache.scalajsbundler.util.Logger
-
 import scala.sys.process.{BasicIO, Process}
 
 object Commands {

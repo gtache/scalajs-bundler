@@ -10,11 +10,10 @@ import org.scalajs.jsenv.nodejs.AbstractNodeJSEnv
 import org.scalajs.jsenv.{AsyncJSRunner, ComJSRunner, JSRunner}
 
 // HACK Copy of Scala.js’ JSDOMNodeJSEnv. The only change is the ability to pass the directory in which jsdom has been installed
-class JSDOMNodeJSEnv(
-                      jsDomDirectory: File,
-                      nodejsPath: String = "node",
-                      addArgs: Seq[String] = Seq.empty,
-                      addEnv: Map[String, String] = Map.empty
+class JSDOMNodeJSEnv(jsDomDirectory: File,
+                     nodejsPath: String = "node",
+                     addArgs: Seq[String] = Seq.empty,
+                     addEnv: Map[String, String] = Map.empty
                     ) extends AbstractNodeJSEnv(nodejsPath, addArgs, addEnv, sourceMap = false) {
 
   protected def vmName: String = "Node.js with JSDOM"

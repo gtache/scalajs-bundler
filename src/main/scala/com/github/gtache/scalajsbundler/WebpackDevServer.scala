@@ -2,8 +2,7 @@ package com.github.gtache.scalajsbundler
 
 import java.io.File
 
-import com.github.gtache.scalajsbundler.util.Logger
-import scalajsbundler.util.Commands
+import com.github.gtache.scalajsbundler.util.{Commands, Logger}
 
 /**
   * Simple wrapper over webpack-dev-server
@@ -55,7 +54,7 @@ private[scalajsbundler] class WebpackDevServer {
       port.toString
     ) ++ extraArgs
 
-    val process: Process = Commands.start(command, workDir)
+    val process: scala.sys.process.Process = Commands.start(command, workDir)
 
     def stop(): Unit = {
       Logger.info("Stopping webpack-dev-server")

@@ -5,7 +5,10 @@ import java.util.zip.ZipInputStream
 
 import com.github.gtache.scalajsbundler.NpmDependencies.Dependencies
 import com.github.gtache.scalajsbundler.util.IO
+import org.gradle.api.file.FileCollection
 import org.scalajs.core.tools.json._
+
+import scala.collection.JavaConverters
 
 /**
   * NPM dependencies, for each configuration.
@@ -13,12 +16,10 @@ import org.scalajs.core.tools.json._
   * serialize for each Scala.js artifact into an additional file
   * in the artifact .jar.
   */
-case class NpmDependencies(
-                            compileDependencies: Dependencies,
-                            testDependencies: Dependencies,
-                            compileDevDependencies: Dependencies,
-                            testDevDependencies: Dependencies
-                          ) {
+case class NpmDependencies(compileDependencies: Dependencies,
+                           testDependencies: Dependencies,
+                           compileDevDependencies: Dependencies,
+                           testDevDependencies: Dependencies) {
   /** Merge operator */
   def ++(that: NpmDependencies): NpmDependencies =
     NpmDependencies(
@@ -65,15 +66,15 @@ object NpmDependencies {
     * @param cp Classpath
     * @return All the NPM dependencies found in the given classpath
     */
-  def collectFromClasspath(cp: Def.Classpath): NpmDependencies =
+  def collectFromClasspath(cp: FileCollection): NpmDependencies =
     (
       for {
-        cpEntry <- Attributed.data(cp) if cpEntry.exists
+        cpEntry <- JavaConverters.asScalaSet(cp.getFiles) if cpEntry.exists
         results <-
-          if (cpEntry.isFile && cpEntry.name.endsWith(".jar")) {
+          if (cpEntry.isFile && cpEntry.getName.endsWith(".jar")) {
             val stream = new ZipInputStream(new BufferedInputStream(new FileInputStream(cpEntry)))
             try {
-              Iterator.continually(stream.getNextEntry())
+              Iterator.continually(stream.getNextEntry)
                 .takeWhile(_ != null)
                 .filter(_.getName == NpmDependencies.manifestFileName)
                 .map(_ => fromJSON[NpmDependencies](readJSON(IO.readStream(stream))))
@@ -83,11 +84,11 @@ object NpmDependencies {
             }
           } else if (cpEntry.isDirectory) {
             for {
-              (file, _) <- Path.selectSubpaths(cpEntry, new ExactFilter(NpmDependencies.manifestFileName))
+              file <- IO.selectSubfiles(cpEntry) if file.getName == NpmDependencies.manifestFileName
             } yield {
               fromJSON[NpmDependencies](readJSON(IO.read(file)))
             }
-          } else sys.error(s"Illegal classpath entry: ${cpEntry.absolutePath}")
+          } else sys.error(s"Illegal classpath entry: ${cpEntry.getAbsolutePath}")
       } yield results
       ).fold(NpmDependencies(Nil, Nil, Nil, Nil))(_ ++ _)
 
@@ -95,8 +96,7 @@ object NpmDependencies {
     * Writes the given dependencies into a manifest file
     */
   def writeManifest(npmDependencies: NpmDependencies,
-                    classDirectory: File
-                   ): File = {
+                    classDirectory: File): File = {
     val manifestFile = new File(classDirectory, manifestFileName)
     IO.write(manifestFile, jsonToString(npmDependencies.toJSON))
     manifestFile

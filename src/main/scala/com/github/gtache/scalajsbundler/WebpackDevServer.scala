@@ -2,7 +2,8 @@ package com.github.gtache.scalajsbundler
 
 import java.io.File
 
-import com.github.gtache.scalajsbundler.util.{Commands, Logger}
+import com.github.gtache.scalajsbundler.util.Commands
+import org.gradle.api.logging.Logger
 
 /**
   * Simple wrapper over webpack-dev-server
@@ -20,14 +21,15 @@ private[scalajsbundler] class WebpackDevServer {
   def start(workDir: File,
             configPath: File,
             port: Int,
-            extraArgs: Seq[String]
-           ): Unit = this.synchronized {
+            extraArgs: Seq[String],
+            logger: Logger): Unit = this.synchronized {
     stop()
     worker = Some(new Worker(
       workDir,
       configPath,
       port,
-      extraArgs))
+      extraArgs,
+      logger))
   }
 
   def stop(): Unit = this.synchronized {
@@ -42,8 +44,8 @@ private[scalajsbundler] class WebpackDevServer {
                        configPath: File,
                        port: Int,
                        extraArgs: Seq[String],
-                      ) {
-    Logger.info("Starting webpack-dev-server")
+                       logger: Logger) {
+    logger.info("Starting webpack-dev-server")
 
     val command: Seq[String] = Seq(
       "node",
@@ -57,7 +59,7 @@ private[scalajsbundler] class WebpackDevServer {
     val process: scala.sys.process.Process = Commands.start(command, workDir)
 
     def stop(): Unit = {
-      Logger.info("Stopping webpack-dev-server")
+      logger.info("Stopping webpack-dev-server")
       process.destroy()
     }
   }

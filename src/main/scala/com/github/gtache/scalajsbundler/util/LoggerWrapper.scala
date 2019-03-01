@@ -1,18 +1,19 @@
 package com.github.gtache.scalajsbundler.util
 
-import com.github.gtache.scalajsbundler.util.Logger.Level.Level
+
+import com.github.gtache.scalajsbundler.util.LoggerWrapper.Level
+import com.github.gtache.scalajsbundler.util.LoggerWrapper.Level.Level
 import org.scalajs.core.tools.logging
-import org.slf4j.{Logger, LoggerFactory}
 
 import scala.sys.process.ProcessLogger
 
-object Logger {
-  val logger: Logger = LoggerFactory.getLogger("some-logger")
-
+object LoggerWrapper {
   object Level extends Enumeration {
     type Level = Value
     val ERROR, WARN, INFO, DEBUG = Value
   }
+}
+case class LoggerWrapper(logger: org.gradle.api.logging.Logger) {
 
   def info(s: String): Unit = {
     logger.info(s)
@@ -44,16 +45,16 @@ object Logger {
   }
 
   def getProcessLogger: ProcessLogger = {
-    ProcessLogger(out => Logger.info(out), err => Logger.error(err))
+    ProcessLogger(out => info(out), err => error(err))
   }
 
   def getSJSLogger: org.scalajs.core.tools.logging.Logger = {
     new logging.Logger {
-      override def log(level: org.scalajs.core.tools.logging.Level, message: => String): Unit = Logger.log(message, sjsLevelToGradleLevel(level))
+      override def log(level: org.scalajs.core.tools.logging.Level, message: => String): Unit = LoggerWrapper.this.log(message, sjsLevelToGradleLevel(level))
 
-      override def success(message: => String): Unit = Logger.log(message)
+      override def success(message: => String): Unit = LoggerWrapper.this.log(message)
 
-      override def trace(t: => Throwable): Unit = Logger.trace(t)
+      override def trace(t: => Throwable): Unit = LoggerWrapper.this.trace(t)
     }
 
     def sjsLevelToGradleLevel(level: org.scalajs.core.tools.logging.Level): Level.Value = level match {
